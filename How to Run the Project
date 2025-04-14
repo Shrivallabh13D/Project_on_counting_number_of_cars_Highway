@@ -1,0 +1,19 @@
+How to Run the Project
+If you have Python Run in Python Software (like IDLE or VS Code)
+1. Save the code above as car_counter.py
+2. Make sure highway.mp4 is in the same folder (or change the path)
+3. Open your terminal or Python IDE
+4. Run:
+python car_counter.py
+
+If You have Jupiter Notebook Run in Jupyter Notebook
+
+1. Open Jupyter Notebook:
+jupyter notebook
+2. Create a new notebook (Python 3)
+3. Paste the code in a cell (you might need to add !pip install opencv-python first)
+4. Run the cell
+
+Note Jupyter sometimes has issues with cv2.imshow(). To avoid this, you can display frames inside the notebook using IPython.display if needed. Let me know if you want that version!
+
+The project  was actually Doe to Just Understand how the task is executed but In Real Time application i Do not recommend to do so use advanced version using object detection (like YOLO or TensorFlow) intersted of Open CV
