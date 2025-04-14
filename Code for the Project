@@ -1,0 +1,44 @@
+#Python Code for the project 
+
+import cv2
+
+# Load video (or use 0 for webcam)
+cap = cv2.VideoCapture("highway.mp4")  # change to 0 for webcam
+
+# Background subtractor to detect moving vehicles
+bg_subtractor = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=50)
+
+# Initialize variables
+car_count = 0
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    # Resize for speed (optional)
+    frame = cv2.resize(frame, (640, 480))
+
+    # Get the foreground mask
+    fg_mask = bg_subtractor.apply(frame)
+
+    # Find contours from the mask
+    contours, _ = cv2.findContours(fg_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    for cnt in contours:
+        area = cv2.contourArea(cnt)
+        if area > 1000:  # Filter small areas (noise)
+            x, y, w, h = cv2.boundingRect(cnt)
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            car_count += 1  # Count each big moving object as a car
+
+    # Display the frame and car count
+    cv2.putText(frame, f"Cars counted: {car_count}", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+    cv2.imshow("Highway Car Counter", frame)
+
+    key = cv2.waitKey(30)
+    if key == 27:  # Press ESC to quit
+        break
+
+cap.release()
+cv2.destroyAllWindows()
